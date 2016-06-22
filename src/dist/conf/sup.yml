@@ -1,0 +1,33 @@
+server:
+  type: simple
+  adminContextPath: /admin
+  applicationContextPath: /
+  connector:
+    type: http
+    port: 9200
+  gzip:
+    enabled: false
+  requestLog:
+    appenders:
+    - type: file
+      currentLogFilename: build/install/sup/log/access.log
+      archivedLogFilenamePattern: build/install/sup/log/access-%d.log
+      archive: true
+      timeZone: UTC
+
+# Logging settings.
+logging:
+  # The default level of all loggers.
+  level: INFO
+  # This defines log level and layouts for dropwizard log appenders.
+  appenders:
+    # Fatal errors to be printed to stderr
+    - type: console
+      threshold: WARN
+      target: stderr
+    #Everything else should go to the log file
+    - type: file
+      threshold: DEBUG
+      currentLogFilename: build/install/mock-collector/log/sup.log
+      archive: true
+      archivedLogFilenamePattern: build/install/mock-collector/log/sup-%d.log.gz

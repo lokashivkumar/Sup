@@ -1,0 +1,56 @@
+group 'com.appd.hack'
+
+apply plugin: 'application'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+
+sourceCompatibility = '1.7'
+
+ext {
+    dropwizardVersion = '0.9.1'
+}
+
+mainClassName = 'com.appdhack.sup.SupApplication'
+
+jar {
+    baseName = 'sup'
+}
+
+distZip {
+    archiveName 'sup.zip'
+}
+
+repositories {
+    jcenter()
+}
+
+
+run {
+    args 'server', './src/dist/conf/sup.yml'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'io.dropwizard:dropwizard-metrics:0.9.1'
+    compile 'io.dropwizard:dropwizard-core:0.9.1'
+    compile 'io.dropwizard:dropwizard-testing:0.9.1'
+    compile 'io.dropwizard:dropwizard-jersey:0.9.1'
+    compile 'io.dropwizard.metrics:metrics-healthchecks:3.1.2'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'javax.ws.rs:javax.ws.rs-api:2.0'
+    compile 'javax.annotation:javax.annotation-api:1.2'
+    compile 'org.apache.httpcomponents:httpclient:4.5.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
+    compile 'org.slf4j:slf4j-api:1.7.6'
+}
