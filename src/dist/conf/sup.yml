@@ -28,6 +28,6 @@ logging:
     #Everything else should go to the log file
     - type: file
       threshold: DEBUG
-      currentLogFilename: build/install/mock-collector/log/sup.log
+      currentLogFilename: build/install/sup/log/sup.log
       archive: true
-      archivedLogFilenamePattern: build/install/mock-collector/log/sup-%d.log.gz
+      archivedLogFilenamePattern: build/install/sup/log/sup-%d.log.gz
