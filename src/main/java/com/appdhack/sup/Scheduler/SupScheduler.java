@@ -21,6 +21,9 @@ import static org.quartz.TriggerBuilder.newTrigger;
  */
 @Slf4j
 public class SupScheduler {
+    // We want to start 10 minutes before the actual requested start time so
+    // that we can send a reminder to a group.
+    private static final int START_TIME_ADJUST_MIN = 10;
     private Scheduler sched;
 
     public SupScheduler() throws RuntimeException {
