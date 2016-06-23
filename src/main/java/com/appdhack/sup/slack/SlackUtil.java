@@ -1,4 +1,4 @@
-package com.appdhack.sup.util;
+package com.appdhack.sup.slack;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
