@@ -4,3 +4,4 @@ settings.gradle
 .gradle/*
 gradle/*
 gradlew.bat
+*.iml
