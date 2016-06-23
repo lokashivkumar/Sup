@@ -34,6 +34,12 @@ repositories {
     jcenter()
 }
 
+task stage(dependsOn: ['clean', 'installDist'])
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
 
 run {
     args 'server', './src/dist/conf/sup.yml'
