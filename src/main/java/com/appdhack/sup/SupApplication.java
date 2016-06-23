@@ -1,7 +1,6 @@
 package com.appdhack.sup;
 
 import com.appdhack.sup.healthchecks.SupHealthCheck;
-import com.appdhack.sup.resources.ExternalServiceResource;
 import com.appdhack.sup.resources.SupResource;
 import com.appdhack.sup.scheduler.SupScheduler;
 import io.dropwizard.Application;
@@ -27,9 +26,12 @@ public class SupApplication extends Application<SupApplicationConfiguration> {
         log.info("Starting a scheduler");
         supScheduler = new SupScheduler();
 
+
+        /* No Rest Client at the moment.
         final HttpClient httpClient = new HttpClientBuilder(environment)
                 .using(configuration.getHttpClientConfiguration())
                 .build(getName());
         environment.jersey().register(new ExternalServiceResource(httpClient));
+        */
     }
 }
