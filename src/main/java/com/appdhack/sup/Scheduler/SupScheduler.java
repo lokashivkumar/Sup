@@ -1,12 +1,9 @@
 package com.appdhack.sup.scheduler;
 
-import com.appdhack.sup.Moderator;
+import com.appdhack.sup.moderator.Moderator;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 
@@ -26,8 +23,14 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class SupScheduler {
     private Scheduler sched;
 
-    public SupScheduler() throws SchedulerException {
-        sched = StdSchedulerFactory.getDefaultScheduler();
+    public SupScheduler() throws RuntimeException {
+        try {
+            sched = StdSchedulerFactory.getDefaultScheduler();
+            sched.start();
+        } catch (SchedulerException e) {
+            log.error("Ran into an error while starting a scheduler.", e);
+            throw new RuntimeException(e);
+        }
     }
 
     public void addMeeting(String channel, String name, ScheduleDetail scheduleDetail) {
@@ -37,13 +40,17 @@ public class SupScheduler {
                 .build();
 
         Set<Integer> daySet = Sets.newHashSet(scheduleDetail.getDaysOfWeek());
-
         // Trigger the job to run now, and then every 40 seconds
         Trigger trigger = newTrigger()
                 .withIdentity(name, channel)
                 .startNow()
                 .withSchedule(dailyTimeIntervalSchedule()
-                        .onDaysOfTheWeek(daySet))
+                        .onDaysOfTheWeek(daySet)
+                        // it is named starting daily at, but it does not mean every day
+                        // it is starting time for the days that are set above.
+                        .startingDailyAt(
+                                new TimeOfDay(scheduleDetail.getHour(), scheduleDetail.getMinute(),
+                                        scheduleDetail.getSeconds())))
                         .startNow()
                 .build();
 

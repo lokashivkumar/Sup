@@ -1,4 +1,4 @@
-package com.appdhack.sup;
+package com.appdhack.sup.moderator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
@@ -9,7 +9,7 @@ import org.quartz.JobExecutionException;
  * This class is the one that drives the stand up.
  * i.e. Start asking questions to a user belongs to a channel,
  *
- * For each stand-up, {@link SupScheduler} will start one instance of this class.
+ * For each stand-up, will start one instance of this class.
  *
  * Created by john.lee on 6/23/16.
  */

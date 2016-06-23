@@ -1,7 +1,5 @@
 package com.appdhack.sup.scheduler;
 
-import java.util.List;
-
 /**
  * Created by john.lee on 6/23/16.
  */
@@ -24,8 +22,8 @@ public enum DaysOfWeek {
         return new DaysOfWeek[]{MON, TUE, WED, THUR, FRI};
     }
 
-    public static int[] getValues(DaysOfWeek[] daysOfWeekArray) {
-        int[] valueArray = new int[daysOfWeekArray.length];
+    public static Integer[] getValues(DaysOfWeek[] daysOfWeekArray) {
+        Integer[] valueArray = new Integer[daysOfWeekArray.length];
         for (int i = 0; i < daysOfWeekArray.length; i++) {
             valueArray[i] = daysOfWeekArray[i].val;
         }

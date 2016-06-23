@@ -11,9 +11,10 @@ import java.util.List;
 public class ScheduleDetail {
     // see java.util.Calendar
     List<Integer> daysOfWeek;
-    Recurrence recurrence;
     // between 0 and 23 using military time.
     int hour;
     // between 0 and 59
     int minute;
+    // between 0 and 60 (Optional)
+    int seconds = 0;
 }
