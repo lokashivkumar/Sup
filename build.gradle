@@ -34,6 +34,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.guava/guava
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    // https://mvnrepository.com/artifact/io.dropwizard/dropwizard-client
+    compile group: 'io.dropwizard', name: 'dropwizard-client', version: '0.9.1'
+
 }
 
 ext {
