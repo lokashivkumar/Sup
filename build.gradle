@@ -2,6 +2,7 @@ group 'com.appd.hack'
 
 apply plugin: 'application'
 apply plugin: 'idea'
+apply plugin: 'java'
 
 sourceCompatibility = 1.7
 
