@@ -2,7 +2,10 @@ package com.appdhack.sup.scheduler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import sun.jvm.hotspot.utilities.Assert;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +16,23 @@ import java.util.concurrent.TimeUnit;
 public class SchedulerTest {
     @Test
     public void TimeSubtractionTest() {
+        String timeString = "11:00:00";
+        // Adjust trigger time so that we can give a reminder to a channel
+        SimpleDateFormat sdf = new SimpleDateFormat(SupScheduler.SDF_TIME_ADJUSTMENT_FORMAT);
+        Date adjustedData;
+        try {
+            adjustedData =sdf.parse(timeString);
+        } catch (ParseException e) {
+            throw new RuntimeException("Parsing error", e);
+        }
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(adjustedData);
+        calendar.add(Calendar.MINUTE, -SupScheduleConstants.START_TIME_ADJUST_MIN);
+        String adjustedTimeString = calendar.get(Calendar.HOUR) + ":"
+                + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+
+        log.info("Adjusted {}", adjustedTimeString);
     }
 
     @Test

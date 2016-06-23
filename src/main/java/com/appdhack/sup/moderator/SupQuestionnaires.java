@@ -8,7 +8,7 @@ import java.util.List;
  *
  * Created by john.lee on 6/23/16.
  */
-public class Questionnaires {
+public class SupQuestionnaires {
     //TODO: Add a variations of Questionnaires from here.
     // http://martinfowler.com/articles/itsNotJustStandingUp.html
 
