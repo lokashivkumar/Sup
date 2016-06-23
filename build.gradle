@@ -12,41 +12,6 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-}
-
-
-sourceCompatibility = '1.7'
-
-ext {
-    dropwizardVersion = '0.9.1'
-}
-
-mainClassName = 'com.appdhack.sup.SupApplication'
-
-jar {
-    baseName = 'sup'
-}
-
-distZip {
-    archiveName 'sup.zip'
-}
-
-repositories {
-    jcenter()
-}
-
-task stage(dependsOn: ['clean', 'installDist'])
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
-}
-
-
-run {
-    args 'server', './src/dist/conf/sup.yml'
-}
-
-dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'io.dropwizard:dropwizard-metrics:0.9.1'
     compile 'io.dropwizard:dropwizard-core:0.9.1'
@@ -61,3 +26,44 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'org.slf4j:slf4j-api:1.7.6'
 }
+
+ext {
+    dropwizardVersion = '0.9.1'
+}
+
+mainClassName = 'com.appdhack.sup.SupApplication'
+
+distZip {
+    archiveName 'sup.zip'
+}
+
+repositories {
+    jcenter()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
+}
+
+task stage(dependsOn: ['clean', 'installDist', 'copyToLib'])
+
+
+run {
+    args 'server', './src/dist/conf/sup.yml'
+}
+
+jar {
+    baseName = 'sup'
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'com.appdhack.sup.SupApplication'
+        )
+    }
+}
+
