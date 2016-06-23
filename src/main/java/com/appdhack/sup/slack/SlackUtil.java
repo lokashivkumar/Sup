@@ -27,7 +27,7 @@ public class SlackUtil {
         this.client = httpClient;
     }
 
-    public String getBotUrl() throws IOException {
+    public String getRTMUrl() throws IOException {
         JsonParser parser = new JsonParser();
         URIBuilder builder = new URIBuilder();
         builder.setScheme("https").setHost("slack.com").setPath("/api/rtm.start").setParameter("token", slackToken);;
