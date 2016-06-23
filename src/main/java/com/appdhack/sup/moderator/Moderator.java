@@ -18,6 +18,7 @@ import java.util.List;
  */
 @Slf4j
 public class Moderator implements Job {
+
     public enum FollowUpAction { GET_BACK_LATER, NOT_PRESENT, DONE }
 
     private FollowUpAction doIndividualStatus() {
