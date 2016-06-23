@@ -8,12 +8,11 @@ import io.dropwizard.Application;
 import io.dropwizard.client.HttpClientBuilder;
 import io.dropwizard.setup.Environment;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.HttpClient;
 
 @Slf4j
 public class SupApplication extends Application<SupApplicationConfiguration> {
     private SupScheduler supScheduler;
-    public static final Logger logger = LoggerFactory.getLogger(SupApplication.class);
-
     public static void main(String[] args) throws Exception {
         new SupApplication().run(args);
     }
