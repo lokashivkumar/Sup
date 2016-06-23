@@ -1,7 +1,6 @@
 group 'com.appd.hack'
 
 apply plugin: 'application'
-apply plugin: 'distribution'
 apply plugin: 'idea'
 apply plugin: 'java'
 
