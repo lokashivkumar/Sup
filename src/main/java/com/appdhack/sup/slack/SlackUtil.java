@@ -66,7 +66,12 @@ public class SlackUtil {
         for (int i = 0; i < userArray.size(); i++) {
             String name = userArray.get(i).getAsJsonObject().get("name").getAsString();
             String id = userArray.get(i).getAsJsonObject().get("id").getAsString();
-            boolean isBot = userArray.get(i).getAsJsonObject().get("is_bot").getAsBoolean();
+            boolean isBot = false; // last minute hack
+            try {
+                isBot = userArray.get(i).getAsJsonObject().get("is_bot").getAsBoolean();
+            } catch (Exception e) {
+                //ignore
+            }
             slackUser = new SlackUser(name, id, isBot);
             userIdNameMap.put(id, slackUser);
         }
