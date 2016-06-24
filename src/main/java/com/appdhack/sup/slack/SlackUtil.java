@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class SlackUtil {
     public static Map<String, SlackUser> userIdNameMap = new HashMap<>();
-    private final String botToken = "xoxb-53472513298-pkQt7C4FOrTEL3RAkUQ4vfT2";
+    private final String botToken = "xoxb-53472513298-Y1WzoyFIXUzUC6Ufw9mvrFYF";
 
     public String getRTMUrl() throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
@@ -74,7 +74,7 @@ public class SlackUtil {
     }
 
     public static List<SlackUser> getUserList() {
-        return (List<SlackUser>)userIdNameMap.values();
+        return new ArrayList<>(userIdNameMap.values());
     }
 
     public static String toJsonMessage(int messageId, String channelId, String textString) throws

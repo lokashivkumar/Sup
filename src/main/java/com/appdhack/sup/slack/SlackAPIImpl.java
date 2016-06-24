@@ -53,13 +53,13 @@ public class SlackAPIImpl implements SlackAPI {
 
     @Override
     public String ask(String channelId, String userId, String text, long timeoutInMillis) {
-        int MINUTES_FOR_USER_TO_ANSWER_ = 2;
+        String message = "<@" + userId + "> " + text;
         try {
             SlackRTMEndpoint.currentUserId = userId;
-            String jsonString = SlackUtil.toJsonMessage(messageId++, channelId, text);
+            String jsonString = SlackUtil.toJsonMessage(messageId++, channelId, message);
             userSession.getBasicRemote().sendText(jsonString);
             // wait for user to answer the bot
-            Thread.sleep(MINUTES_FOR_USER_TO_ANSWER_ * 60000);
+            Thread.sleep(timeoutInMillis);
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
