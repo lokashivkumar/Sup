@@ -12,9 +12,11 @@ import lombok.Setter;
 public class SlackUser {
     private String id;
     private String name;
+    private boolean isBot;
 
-    public SlackUser(String name, String id) {
+    public SlackUser(String name, String id, boolean isBot) {
         this.name = name;
         this.id = id;
+        this.isBot = isBot;
     }
 }
