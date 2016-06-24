@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import static org.quartz.JobBuilder.*;
 import static org.quartz.DailyTimeIntervalScheduleBuilder.dailyTimeIntervalSchedule;
@@ -100,7 +101,8 @@ public class SupScheduler {
                                         second
                                 )
                         )
-                        .withInterval(7, DateBuilder.IntervalUnit.DAY)
+                        .withRepeatCount(1)
+                        .withIntervalInHours(5)
                 )
                 .startNow()
                 .build();
@@ -109,7 +111,7 @@ public class SupScheduler {
         try {
             sched.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
-            log.error("Error while adding a job {}", job.toString());
+            log.error("Error while adding a job {}", job.toString(), e);
         }
     }
 }

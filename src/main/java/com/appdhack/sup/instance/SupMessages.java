@@ -15,4 +15,5 @@ public class SupMessages {
     public static final String GET_BACK_LATER = "We will get to you later.";
     public static final String OKAY = "Continue.";
     public static final String THANK_YOU = "Thank you.";
+    public static final String END = "Good job, everybody. We finished the stand up. Get back to work now.";
 }

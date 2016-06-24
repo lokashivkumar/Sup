@@ -128,9 +128,13 @@ public class Sup implements Job {
         // second iteration.
         iter = userIds.iterator();
         while (iter.hasNext()) {
+            System.out.println("Second iteration.");
             String userId = iter.next();
             doIndividualStatus(channelId, userId);
             slackAPI.say(channelId, userId, SupMessages.THANK_YOU);
         }
+
+        // Ending Sup
+        slackAPI.say(channelId, SupMessages.END);
     }
 }
