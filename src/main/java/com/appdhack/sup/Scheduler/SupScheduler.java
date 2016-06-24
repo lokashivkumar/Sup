@@ -6,14 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Set;
 
-import static org.quartz.JobBuilder.*;
 import static org.quartz.DailyTimeIntervalScheduleBuilder.dailyTimeIntervalSchedule;
+import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**

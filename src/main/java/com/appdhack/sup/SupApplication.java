@@ -4,7 +4,7 @@ import be.tomcools.dropwizard.websocket.WebsocketBundle;
 import com.appdhack.sup.healthchecks.SupHealthCheck;
 import com.appdhack.sup.resources.SupResource;
 import com.appdhack.sup.scheduler.SupScheduler;
-import com.appdhack.sup.slack.SlackRTMEndpoint;
+import com.appdhack.sup.slack.SlackBot;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -40,7 +40,7 @@ public class SupApplication extends Application<SupApplicationConfiguration> {
         log.info("Starting a scheduler");
         supScheduler = new SupScheduler();
 
-        websocket.addEndpoint(SlackRTMEndpoint.class);
+        websocket.addEndpoint(SlackBot.class);
         //programmatic endpoint
 //        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(SlackRTMEndpoint.class, "").build();
 //        websocket.addEndpoint(serverEndpointConfig);

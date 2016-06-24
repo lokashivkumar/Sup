@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
 public class SlackUtil {
 
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SlackUtil.class);
-    private final String slackToken = "xoxp-53450742471-53446019440-53918232529-d58cb8e66b";
+    private final String slackToken = "";
     private final String botToken = "xoxb-53472513298-zi8L5Dao0Ztx1FGXfwjbI3s3";
 
 

@@ -36,7 +36,7 @@ public class Sup implements Job {
         // Checking availability. Wait for 10 seconds for any reponse other than null.
         String response = slackAPI.ask(channelId, userId,
                 SupMessages.AVAILABILITY_CHECK,
-                TimeUnit.SECONDS.toMillis(SupConstants.AVAILABILITY_CHECK_TIMEOUT_SEC));
+                TimeUnit.SECONDS.toMillis(SupConstants.AVAILABILITY_CHECK_TIMEOUT_MIN));
 
         // No response with the given timeLimit.User not present, will get back later.
         if (response == null) {
@@ -84,7 +84,7 @@ public class Sup implements Job {
 
         // Basic Flow.
         // Send out a 10 minute-warning message and sleep.
-        slackAPI.say(channelId, SupMessages.REMINDER);
+       // slackAPI.say(channelId, SupMessages.REMINDER);
 
         // Sleep until the hit time.
         try {
@@ -94,7 +94,7 @@ public class Sup implements Job {
         }
 
         // Starting Sup
-        slackAPI.say(channelId, SupMessages.START);
+        //slackAPI.say(channelId, SupMessages.START);
 
         // Retrieve all users from the channel.
         List<String> userIds = slackAPI.getAllActiveUsers(channelId);

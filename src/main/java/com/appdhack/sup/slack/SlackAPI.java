@@ -6,7 +6,7 @@ import java.util.List;
  * Created by john.lee on 6/23/16.
  */
 public interface SlackAPI {
-    void say(String channelId, String message);
+    void say(String message);
 
     void say(String channelId, String userId, String message);
 
