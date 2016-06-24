@@ -34,13 +34,13 @@ public class Sup implements Job {
 
     private FollowUpAction doIndividualStatus(String channelId, String userId) {
         // Checking availability. Wait for 10 seconds for any reponse other than null.
-        String response = slackAPI.ask(userId,
+        String response = slackAPI.ask(channelId, userId,
                 SupMessages.AVAILABILITY_CHECK,
                 TimeUnit.SECONDS.toMillis(SupConstants.AVAILABILITY_CHECK_TIMEOUT_SEC));
 
         // No response with the given timeLimit.User not present, will get back later.
         if (response == null) {
-            slackAPI.say(userId, SupMessages.GET_BACK_LATER);
+            slackAPI.say(channelId, userId, SupMessages.GET_BACK_LATER);
             return FollowUpAction.GET_BACK_LATER;
         }
 
@@ -55,7 +55,7 @@ public class Sup implements Job {
         List<String> questionnaire = SupQuestionnaires.getQuestionnaire(questionnaireType);
         for (String question : questionnaire) {
             while (true) {
-                response = slackAPI.ask(userId,
+                response = slackAPI.ask(channelId, userId,
                         question,
                         TimeUnit.SECONDS.toMillis(SupConstants.QUESTION_TIMEOUT_SEC));
 
@@ -78,19 +78,24 @@ public class Sup implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         questionnaireType = SupQuestionnaires.QuestionnaireType.A;
 
+        boolean reminderEnabled = (boolean) context.getJobDetail()
+                .getJobDataMap().get(SupConstants.REMINDER_ENABLED_PARAM);
+
         // Channel id can be retrieved by this if properly registered.
         String channelId = context.getJobDetail().getKey().getGroup();
         log.info("Starting a meeting for a channel {}", channelId);
 
-        // Basic Flow.
-        // Send out a 10 minute-warning message and sleep.
-        slackAPI.say(channelId, SupMessages.REMINDER);
+        if (reminderEnabled) {
+            // Basic Flow.
+            // Send out a 10 minute-warning message and sleep.
+            slackAPI.say(channelId, SupMessages.REMINDER);
 
-        // Sleep until the hit time.
-        try {
-            Thread.sleep(TimeUnit.MINUTES.toMillis(SupScheduleConstants.START_TIME_ADJUST_MIN));
-        } catch (InterruptedException e) {
-            log.error("Interrupted. Starting standing a Sup.", e);
+            // Sleep until the hit time.
+            try {
+                Thread.sleep(TimeUnit.MINUTES.toMillis(SupScheduleConstants.START_TIME_ADJUST_MIN));
+            } catch (InterruptedException e) {
+                log.error("Interrupted. Starting standing a Sup.", e);
+            }
         }
 
         // Starting Sup

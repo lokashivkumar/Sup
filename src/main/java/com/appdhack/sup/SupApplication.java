@@ -15,8 +15,6 @@ import javax.websocket.ClientEndpoint;
 @Slf4j
 @ClientEndpoint
 public class SupApplication extends Application<SupApplicationConfiguration> {
-    private SupScheduler supScheduler;
-
     public static void main(String[] args) throws Exception {
         new SupApplication().run(args);
     }
@@ -38,7 +36,6 @@ public class SupApplication extends Application<SupApplicationConfiguration> {
         environment.healthChecks().register("test", healthCheck);
 
         log.info("Starting a scheduler");
-        supScheduler = new SupScheduler();
 
         websocket.addEndpoint(SlackRTMEndpoint.class);
         //programmatic endpoint

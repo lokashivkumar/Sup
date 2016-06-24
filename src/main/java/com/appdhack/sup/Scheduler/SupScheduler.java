@@ -1,6 +1,7 @@
 package com.appdhack.sup.scheduler;
 
 import com.appdhack.sup.instance.Sup;
+import com.appdhack.sup.instance.SupConstants;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -25,23 +26,34 @@ import static org.quartz.TriggerBuilder.newTrigger;
 @Slf4j
 public class SupScheduler {
     public static final String SDF_TIME_ADJUSTMENT_FORMAT = "HH:mm:ss";
+    private static final SupScheduler INSTANCE = new SupScheduler();
+
     private Scheduler sched;
 
-    public SupScheduler() throws RuntimeException {
-        try {
-            sched = StdSchedulerFactory.getDefaultScheduler();
-            sched.start();
-        } catch (SchedulerException e) {
-            log.error("Ran into an error while starting a scheduler.", e);
-            throw new RuntimeException(e);
+    private SupScheduler() throws RuntimeException {
+        if (SupScheduler.INSTANCE == null) {
+            try {
+                sched = StdSchedulerFactory.getDefaultScheduler();
+                sched.start();
+            } catch (SchedulerException e) {
+                log.error("Ran into an error while starting a scheduler.", e);
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void addMeeting(String channel, String name, ScheduleDetail scheduleDetail) {
+    public static SupScheduler getInstance() {
+        return SupScheduler.INSTANCE;
+    }
+
+    public void scheduleSup(String channel, ScheduleDetail scheduleDetail) {
+        String name = "stand-up";
         JobDetail job =
                 newJob(Sup.class)
                 .withIdentity(name, channel)
                 .build();
+
+        job.getJobDataMap().put(SupConstants.REMINDER_ENABLED_PARAM, scheduleDetail.enableReminder);
 
         Set<Integer> daySet = Sets.newHashSet(scheduleDetail.getDaysOfWeek());
 
@@ -57,12 +69,19 @@ public class SupScheduler {
             throw new RuntimeException("Parsing error", e);
         }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(adjustedData);
-        calendar.add(Calendar.MINUTE, -SupScheduleConstants.START_TIME_ADJUST_MIN);
-        String adjustedTimeString = calendar.get(Calendar.HOUR) + ":"
-                + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+        int hour = scheduleDetail.getHour();
+        int minute = scheduleDetail.getMinute();
+        int second = scheduleDetail.getSeconds();
+        if (scheduleDetail.isEnableReminder()) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(adjustedData);
+            calendar.add(Calendar.MINUTE, -SupScheduleConstants.START_TIME_ADJUST_MIN);
 
+            hour = calendar.get(Calendar.HOUR);
+            minute = calendar.get(Calendar.MINUTE);
+            second = calendar.get(Calendar.SECOND);
+        }
+        String adjustedTimeString = hour + ":" + minute + ":" + second;
         log.info("Scheduling a stand up meeting for a channel {} at {} on",
                 channel, adjustedTimeString, scheduleDetail.getDaysOfWeek().toString());
 
@@ -75,9 +94,9 @@ public class SupScheduler {
                         // it is starting time for the days that are set above.
                         .startingDailyAt(
                                 new TimeOfDay(
-                                        calendar.get(Calendar.HOUR),
-                                        calendar.get(Calendar.MINUTE),
-                                        calendar.get(Calendar.SECOND)
+                                        hour,
+                                        minute,
+                                        second
                                 )
                         )
                 )

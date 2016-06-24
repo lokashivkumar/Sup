@@ -1,6 +1,7 @@
 package com.appdhack.sup.scheduler;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ import java.util.List;
  * Created by john.lee on 6/23/16.
  */
 @Data
+@Accessors(chain = true)
 public class ScheduleDetail {
     // see java.util.Calendar
     List<Integer> daysOfWeek;
@@ -17,4 +19,6 @@ public class ScheduleDetail {
     int minute;
     // between 0 and 60 (Optional)
     int seconds = 0;
+
+    boolean enableReminder = false;
 }

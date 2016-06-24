@@ -6,5 +6,5 @@ package com.appdhack.sup.scheduler;
 public class SupScheduleConstants {
     // We want to start 10 minutes before the actual requested start time so
     // that we can say a reminder to a group.
-    public static final int START_TIME_ADJUST_MIN = 10;
+    public static final int START_TIME_ADJUST_MIN = 1;
 }

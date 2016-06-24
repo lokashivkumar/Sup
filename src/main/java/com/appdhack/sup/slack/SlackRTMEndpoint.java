@@ -5,6 +5,7 @@ import com.appdhack.sup.scheduler.DaysOfWeek;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 import javax.websocket.*;
@@ -17,6 +18,7 @@ import java.util.concurrent.CountDownLatch;
 
 @ClientEndpoint
 @ServerEndpoint("/supserver")
+@Slf4j
 public class SlackRTMEndpoint {
     private SlackUtil util = new SlackUtil();
     private CountDownLatch latch;
@@ -93,13 +95,21 @@ public class SlackRTMEndpoint {
             System.out.println(time + " " + day);
             SlackAPI api = new SlackAPIImpl();
             api.setUserSession(userSession);
-            String response = api.receive(event.getChannel(), time, DaysOfWeek.valueOf(day));
+            try {
+                api.schedule(event.getChannel(), time, DaysOfWeek.valueOf(day));
+            } catch (Exception e) {
+                log.error("Error scheduling a stand-up for channel {}, time {}, day {}",
+                        event.getChannel(), time, day, e);
+                // TODO: Send a message back to the channel or a user that schedule has failed.
+            }
+
+            /*
             System.out.println(response);
             valueMap.put("text", response);
             ObjectMapper mapper = new ObjectMapper();
             i++;
             userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
-            //TODO : Implement logic to schedule standup
+            */
 
         } catch (IOException e) {
             e.printStackTrace();

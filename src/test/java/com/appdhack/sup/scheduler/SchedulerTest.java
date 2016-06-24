@@ -58,7 +58,7 @@ public class SchedulerTest {
 
         log.info("Detail {}", detail.toString());
 
-        supScheduler.addMeeting("testChannel", "testName", detail);
+        supScheduler.scheduleSup("testChannel", "testName", detail);
 
         try {
             Thread.sleep(TimeUnit.MINUTES.toMillis(2));
