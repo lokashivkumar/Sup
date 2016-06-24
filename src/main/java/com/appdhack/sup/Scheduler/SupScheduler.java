@@ -1,6 +1,6 @@
 package com.appdhack.sup.scheduler;
 
-import com.appdhack.sup.moderator.Sup;
+import com.appdhack.sup.instance.Sup;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;

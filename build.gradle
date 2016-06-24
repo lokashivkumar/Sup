@@ -78,3 +78,9 @@ jar {
     }
 }
 
+test {
+    testLogging.showStandardStreams = true
+    testLogging {
+        events 'started', 'passed', 'failed', 'skipped'
+    }
+}

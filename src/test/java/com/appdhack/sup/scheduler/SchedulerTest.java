@@ -2,7 +2,6 @@ package com.appdhack.sup.scheduler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import sun.jvm.hotspot.utilities.Assert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +46,7 @@ public class SchedulerTest {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.SECOND, 10);
+        cal.add(Calendar.MINUTE, SupScheduleConstants.START_TIME_ADJUST_MIN);
         int hours = cal.get(Calendar.HOUR_OF_DAY);
         int minutes = cal.get(Calendar.MINUTE);
         int seconds = cal.get(Calendar.SECOND);
