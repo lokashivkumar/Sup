@@ -72,7 +72,7 @@ public class SlackRTMEndpoint {
                 userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
             }
             else if(event.getText().equalsIgnoreCase("<@U1KDWF38S>: schedule")) {
-                String textString = String.format("please type: schedule [time] every [day of week] to schedule a standup.");
+                String textString = "please type: 'schedule [time in HH:mm] every [day of week]' to schedule a standup.";
                 valueMap.put("id", String.valueOf(i));
                 valueMap.put("type", "message");
                 valueMap.put("subtype", "bot_message");
@@ -90,7 +90,6 @@ public class SlackRTMEndpoint {
             System.out.println(time + " " + day);
             SlackAPI api = new SlackAPIImpl();
             api.setUserSession(userSession);
-            System.out.println("User session in slack RTM end point is " + userSession);
             try {
                 api.schedule(event.getChannel(), time, DaysOfWeek.valueOf(day));
             } catch (Exception e) {
@@ -98,15 +97,6 @@ public class SlackRTMEndpoint {
                         event.getChannel(), time, day, e);
                 // TODO: Send a message back to the channel or a user that schedule has failed.
             }
-
-            /*
-            System.out.println(response);
-            valueMap.put("text", response);
-            ObjectMapper mapper = new ObjectMapper();
-            i++;
-            userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
-            */
-
         } catch (IOException e) {
             e.printStackTrace();
         }
