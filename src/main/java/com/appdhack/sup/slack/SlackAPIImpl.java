@@ -3,8 +3,9 @@ package com.appdhack.sup.slack;
 import java.util.List;
 
 public class SlackAPIImpl implements SlackAPI {
+
     @Override
-    public void say(String channelId, String message) {
+    public void say(String message) {
 
     }
 

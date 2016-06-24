@@ -2,10 +2,8 @@ package com.appdhack.sup.slack;
 
 import com.appdhack.sup.dto.Events;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -18,10 +16,8 @@ import java.util.concurrent.CountDownLatch;
 @ClientEndpoint
 @ServerEndpoint("/supserver")
 public class SlackRTMEndpoint {
-    //private SlackMessageHandler messageHandler = new SlackMessageHandler();
     private SlackUtil util = new SlackUtil();
     private CountDownLatch latch;
-    private WebSocketClient client;
     Events event = new Events();
     Session userSession;
 
@@ -40,13 +36,6 @@ public class SlackRTMEndpoint {
     @OnOpen
     public void onOpen(Session userSession) {
         System.out.println("Open session");
-       // userSession.addMessageHandler(messageHandler);
-//        userSession.addMessageHandler(messageHandler);
-//        try {
-//            userSession.getBasicRemote().sendText("start");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     @OnMessage
@@ -66,15 +55,8 @@ public class SlackRTMEndpoint {
                 "    \"channel\": \"" + event.getChannel() + "\",\n" +
                 "    \"text\": \"Hello world from BOT\"\n" +
                 "}";
-        JsonObject jsonResponseObject;
         int i = 1;
-        JsonElement idJson = parser.parse(String.valueOf(i));
-        JsonElement typeJson = parser.parse("message");
-        JsonElement subtypeJson = parser.parse("bot_message");
-        JsonElement channelJson = parser.parse(event.getChannel());
-
         Map<String, String> valueMap = new HashMap<>();
-
         try {
             if (event.getText().equalsIgnoreCase("<@U1KDWF38S>") || event.getText().equalsIgnoreCase("<@U1KDWF38S>:")) {
 
@@ -111,8 +93,7 @@ public class SlackRTMEndpoint {
     @OnClose
     public void onClose(final Session userSession, final CloseReason reason) {
         System.out.println("close session" + reason);
-//        System.out.println(String.format("Session %s close because of %s", userSession.getId(), reason));
-//        latch.countDown();
+        latch.countDown();
     }
 }
 
