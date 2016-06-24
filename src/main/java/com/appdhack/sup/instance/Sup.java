@@ -114,26 +114,21 @@ public class Sup implements Job {
 
         // Retrieve all users from the channel.
         List<String> userIds = slackAPI.getAllActiveUsers(channelId);
-
-        int numUsers = userIds.size();
-        int numIter = 0;
-        int count = 0;
         Iterator<String> iter = userIds.iterator();
         while (iter.hasNext()) {
             FollowUpAction followUpAction = doIndividualStatus(channelId, iter.next());
             if (!followUpAction.equals(FollowUpAction.GET_BACK_LATER)) {
+                slackAPI.say(channelId, iter.next(), SupMessages.THANK_YOU);
                 iter.remove();
             }
-
-            count++;
-            if (count == numUsers) {
-                numIter++;
-                if (numIter == 2) {
-                    break;
-                }
-                numUsers = userIds.size();
-                count = 0;
-            }
         }
+
+        // second iteration.
+        iter = userIds.iterator();
+        while (iter.hasNext()) {
+            doIndividualStatus(channelId, iter.next());
+            slackAPI.say(channelId, iter.next(), SupMessages.THANK_YOU);
+        }
+
     }
 }

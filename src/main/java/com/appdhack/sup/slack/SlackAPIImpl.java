@@ -38,9 +38,10 @@ public class SlackAPIImpl implements SlackAPI {
 
     @Override
     public void say(String channelId, String userId, String text) {
+        String message = "@" + userId + " " + text;
         try {
             userSession.getBasicRemote()
-                    .sendText(SlackUtil.toJsonMessage(messageId++, channelId, text));
+                    .sendText(SlackUtil.toJsonMessage(messageId++, channelId, message));
         } catch (IOException e) {
             e.printStackTrace();
         }

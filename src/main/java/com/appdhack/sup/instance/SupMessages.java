@@ -14,4 +14,5 @@ public class SupMessages {
     public static final String INSTRUCTION = "Type 'skip' if you don't have any update. Type 'done' when you want to move on to the next question.";
     public static final String GET_BACK_LATER = "We will get to you later.";
     public static final String OKAY = "Continue.";
+    public static final String THANK_YOU = "Thank you.";
 }
