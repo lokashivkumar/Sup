@@ -11,7 +11,6 @@ import io.dropwizard.setup.Environment;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.websocket.ClientEndpoint;
-import javax.websocket.server.ServerEndpointConfig;
 
 @Slf4j
 @ClientEndpoint
