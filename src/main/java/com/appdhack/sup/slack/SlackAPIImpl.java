@@ -4,7 +4,6 @@ import com.appdhack.sup.dto.SlackUser;
 import com.appdhack.sup.scheduler.DaysOfWeek;
 import com.appdhack.sup.scheduler.ScheduleDetail;
 import com.appdhack.sup.scheduler.SupScheduler;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

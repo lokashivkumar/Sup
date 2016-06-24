@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
 @ClientEndpoint
@@ -110,7 +111,7 @@ public class SlackRTMEndpoint {
                 i++;
                 userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
             }
-            else if (SlackUtil.userIdNameMap.get(currentUserId).getName() == event.getUser()) {
+            else if (Objects.equals(SlackUtil.userIdNameMap.get(currentUserId).getId(), event.getUser())) {
                 SlackAPIImpl.returnValueForAsk = event.getText();
             }
 
