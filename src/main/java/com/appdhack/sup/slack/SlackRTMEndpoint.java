@@ -89,8 +89,10 @@ public class SlackRTMEndpoint {
             String[] words = event.getText().split("\\s+");
             String time = words[2];
             String day = words[4];
+
             System.out.println(time + " " + day);
             SlackAPI api = new SlackAPIImpl();
+            api.setUserSession(userSession);
             String response = api.receive(event.getChannel(), time, DaysOfWeek.valueOf(day));
             System.out.println(response);
             valueMap.put("text", response);

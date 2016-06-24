@@ -23,7 +23,7 @@ import java.util.List;
 public class SlackUtil {
 
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SlackUtil.class);
-    private final String slackToken = "xoxp-53450742471-53446019440-54035478288-8a1aeacfbc";
+    private final String slackToken = "";
     private final String botToken = "xoxb-53472513298-zi8L5Dao0Ztx1FGXfwjbI3s3";
     List<SlackUser> userList = new ArrayList<>();
 

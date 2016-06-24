@@ -2,6 +2,7 @@ package com.appdhack.sup.slack;
 
 import com.appdhack.sup.scheduler.DaysOfWeek;
 
+import javax.websocket.Session;
 import java.util.List;
 
 /**
@@ -17,4 +18,6 @@ public interface SlackAPI {
     List<String> getAllActiveUsers(String channelId);
 
     String receive(String channelId, String time, DaysOfWeek day);
+
+    void setUserSession(Session userSession);
 }
