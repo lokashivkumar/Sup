@@ -28,7 +28,7 @@ import java.util.Map;
 public class SlackUtil {
 
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SlackUtil.class);
-    private final String botToken = "";
+    private final String botToken = "xoxb-53472513298-nUZiG91Fa7gVVeKiCDoAtd5G";
     static List<SlackUser> userList = new ArrayList<>();
 
     public String getRTMUrl() throws IOException {

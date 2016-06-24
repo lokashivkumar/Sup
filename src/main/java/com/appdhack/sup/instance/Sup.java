@@ -1,7 +1,6 @@
 package com.appdhack.sup.instance;
 
 import com.appdhack.sup.scheduler.SupScheduleConstants;
-import com.appdhack.sup.slack.SlackAPI;
 import com.appdhack.sup.slack.SlackAPIImpl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +44,6 @@ public class Sup implements Job {
 
         // No response with the given timeLimit.User not present, will get back later.
         if (response == null) {
-            slackAPI.say(channelId, userId, SupMessages.GET_BACK_LATER);
             return FollowUpAction.GET_BACK_LATER;
         }
 
@@ -116,19 +114,23 @@ public class Sup implements Job {
         List<String> userIds = slackAPI.getAllActiveUsers(channelId);
         Iterator<String> iter = userIds.iterator();
         while (iter.hasNext()) {
-            FollowUpAction followUpAction = doIndividualStatus(channelId, iter.next());
+            System.out.println("First iteration.");
+            String userId = iter.next();
+            FollowUpAction followUpAction = doIndividualStatus(channelId, userId);
             if (!followUpAction.equals(FollowUpAction.GET_BACK_LATER)) {
-                slackAPI.say(channelId, iter.next(), SupMessages.THANK_YOU);
+                slackAPI.say(channelId, userId, SupMessages.THANK_YOU);
                 iter.remove();
+            } else {
+                slackAPI.say(channelId, userId, SupMessages.GET_BACK_LATER);
             }
         }
 
         // second iteration.
         iter = userIds.iterator();
         while (iter.hasNext()) {
-            doIndividualStatus(channelId, iter.next());
-            slackAPI.say(channelId, iter.next(), SupMessages.THANK_YOU);
+            String userId = iter.next();
+            doIndividualStatus(channelId, userId);
+            slackAPI.say(channelId, userId, SupMessages.THANK_YOU);
         }
-
     }
 }

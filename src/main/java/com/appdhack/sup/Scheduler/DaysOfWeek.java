@@ -11,7 +11,7 @@ public enum DaysOfWeek {
     MON(2),
     TUE(3),
     WED(4),
-    THUR(5),
+    THU(5),
     FRI(6),
     SAT(7);
 
@@ -22,7 +22,7 @@ public enum DaysOfWeek {
     }
 
     public static DaysOfWeek[] getWeekDays() {
-        return new DaysOfWeek[]{MON, TUE, WED, THUR, FRI};
+        return new DaysOfWeek[]{MON, TUE, WED, THU, FRI};
     }
 
     public static List<Integer> getValues(DaysOfWeek[] daysOfWeekArray) {

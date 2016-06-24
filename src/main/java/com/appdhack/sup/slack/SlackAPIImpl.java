@@ -36,7 +36,7 @@ public class SlackAPIImpl implements SlackAPI {
 
     @Override
     public void say(String channelId, String userId, String text) {
-        String message = "@" + userId + " " + text;
+        String message = "<@" + userId + "> " + text;
         try {
             userSession.getBasicRemote()
                     .sendText(SlackUtil.toJsonMessage(messageId++, channelId, message));
@@ -59,7 +59,7 @@ public class SlackAPIImpl implements SlackAPI {
     public List<String> getAllActiveUsers(String channelId) {
         List<String> userList = new ArrayList<>();
         for (SlackUser user : SlackUtil.getUserList()) {
-            userList.add(user.getName());
+            userList.add(user.getId());
         }
         return userList;
     }

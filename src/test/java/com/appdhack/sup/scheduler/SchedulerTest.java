@@ -14,6 +14,17 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SchedulerTest {
     @Test
+    public void regexMatchText() {
+        String SCHEDULE_MATCH_REGEX = "<@U1KDWF38S> schedule \\d{2}:\\d{2} every [A-Z]{3}";
+        String matchText = "<@U1KDWF38S> schedule 11:45 every FRI";
+        if (matchText.matches(SCHEDULE_MATCH_REGEX)) {
+            log.info("yeah matching!");
+        } else {
+            log.info("nope..");
+        }
+
+    }
+    @Test
     public void TimeSubtractionTest() {
         String timeString = "11:00:00";
         // Adjust trigger time so that we can give a reminder to a channel
@@ -33,6 +44,8 @@ public class SchedulerTest {
 
         log.info("Adjusted {}", adjustedTimeString);
     }
+
+    /*
 
     @Test
     public void SchedulerTest_test1() {
@@ -66,4 +79,5 @@ public class SchedulerTest {
             log.error("Interrupted.", e);
         }
     }
+    */
 }

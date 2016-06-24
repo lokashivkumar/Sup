@@ -100,6 +100,7 @@ public class SupScheduler {
                                         second
                                 )
                         )
+                        .withInterval(7, DateBuilder.IntervalUnit.DAY)
                 )
                 .startNow()
                 .build();
