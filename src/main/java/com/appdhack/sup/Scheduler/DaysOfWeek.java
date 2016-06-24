@@ -27,7 +27,6 @@ public enum DaysOfWeek {
         for (int i = 0; i < daysOfWeekArray.length; i++) {
             valueArray[i] = daysOfWeekArray[i].val;
         }
-
         return valueArray;
     }
 }

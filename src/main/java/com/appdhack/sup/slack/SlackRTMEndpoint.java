@@ -1,8 +1,8 @@
 package com.appdhack.sup.slack;
 
 import com.appdhack.sup.dto.Events;
+import com.appdhack.sup.scheduler.DaysOfWeek;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
@@ -18,7 +18,6 @@ import java.util.concurrent.CountDownLatch;
 @ClientEndpoint
 @ServerEndpoint("/supserver")
 public class SlackRTMEndpoint {
-    //private SlackMessageHandler messageHandler = new SlackMessageHandler();
     private SlackUtil util = new SlackUtil();
     private CountDownLatch latch;
     private WebSocketClient client;
@@ -59,20 +58,7 @@ public class SlackRTMEndpoint {
         event.setChannel(object.get("channel").getAsString());
         event.setUser(object.get("user").getAsString());
 
-        String response = "{\n" +
-                "    \"id\": 1,\n" +
-                "    \"type\": \"message\",\n" +
-                "    \"subtype\": \"bot_message\",\n" +
-                "    \"channel\": \"" + event.getChannel() + "\",\n" +
-                "    \"text\": \"Hello world from BOT\"\n" +
-                "}";
-        JsonObject jsonResponseObject;
         int i = 1;
-        JsonElement idJson = parser.parse(String.valueOf(i));
-        JsonElement typeJson = parser.parse("message");
-        JsonElement subtypeJson = parser.parse("bot_message");
-        JsonElement channelJson = parser.parse(event.getChannel());
-
         Map<String, String> valueMap = new HashMap<>();
 
         try {
@@ -88,7 +74,7 @@ public class SlackRTMEndpoint {
                 i++;
                 userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
             }
-            else if (event.getText().equalsIgnoreCase("<@U1KDWF38S>: schedule")) {
+            else if(event.getText().equalsIgnoreCase("<@U1KDWF38S>: schedule")) {
                 String textString = String.format("please type: schedule [time] every [day of week] to schedule a standup.");
                 valueMap.put("id", String.valueOf(i));
                 valueMap.put("type", "message");
@@ -99,9 +85,19 @@ public class SlackRTMEndpoint {
                 i++;
                 userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
             }
-            else {
-                //TODO : Implement logic to schedule standup.
-            }
+
+            String[] words = event.getText().split("\\s+");
+            String time = words[2];
+            String day = words[4];
+            System.out.println(time + " " + day);
+            SlackAPI api = new SlackAPIImpl();
+            String response = api.receive(event.getChannel(), time, DaysOfWeek.valueOf(day));
+            System.out.println(response);
+            valueMap.put("text", response);
+            ObjectMapper mapper = new ObjectMapper();
+            i++;
+            userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
+            //TODO : Implement logic to schedule standup
 
         } catch (IOException e) {
             e.printStackTrace();

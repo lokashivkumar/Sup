@@ -34,13 +34,13 @@ public class Sup implements Job {
 
     private FollowUpAction doIndividualStatus(String channelId, String userId) {
         // Checking availability. Wait for 10 seconds for any reponse other than null.
-        String response = slackAPI.ask(channelId, userId,
+        String response = slackAPI.ask(userId,
                 SupMessages.AVAILABILITY_CHECK,
                 TimeUnit.SECONDS.toMillis(SupConstants.AVAILABILITY_CHECK_TIMEOUT_SEC));
 
         // No response with the given timeLimit.User not present, will get back later.
         if (response == null) {
-            slackAPI.say(channelId, userId, SupMessages.GET_BACK_LATER);
+            slackAPI.say(userId, SupMessages.GET_BACK_LATER);
             return FollowUpAction.GET_BACK_LATER;
         }
 
@@ -49,13 +49,13 @@ public class Sup implements Job {
             return FollowUpAction.SKIP;
         }
 
-        slackAPI.say(channelId, userId, SupMessages.INSTRUCTION);
+        slackAPI.say(userId, SupMessages.INSTRUCTION);
 
         // Moving on to questions.
         List<String> questionnaire = SupQuestionnaires.getQuestionnaire(questionnaireType);
         for (String question : questionnaire) {
             while (true) {
-                response = slackAPI.ask(channelId, userId,
+                response = slackAPI.ask(userId,
                         question,
                         TimeUnit.SECONDS.toMillis(SupConstants.QUESTION_TIMEOUT_SEC));
 

@@ -1,5 +1,6 @@
 package com.appdhack.sup.slack;
 
+import com.appdhack.sup.dto.SlackUser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -16,13 +17,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SlackUtil {
 
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SlackUtil.class);
-    private final String slackToken = "xoxp-53450742471-53446019440-53928954150-36f27eb677";
+    private final String slackToken = "xoxp-53450742471-53446019440-54035478288-8a1aeacfbc";
     private final String botToken = "xoxb-53472513298-zi8L5Dao0Ztx1FGXfwjbI3s3";
-
+    List<SlackUser> userList = new ArrayList<>();
 
     public String getRTMUrl() throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
@@ -55,6 +58,7 @@ public class SlackUtil {
         JsonElement slackBotJsonResponse = parser.parse(str.toString());
         JsonObject object = slackBotJsonResponse.getAsJsonObject();
         String url = object.get("url").getAsString();
+
         return url;
     }
 }
