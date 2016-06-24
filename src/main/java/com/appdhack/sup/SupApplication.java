@@ -42,8 +42,8 @@ public class SupApplication extends Application<SupApplicationConfiguration> {
         supScheduler = new SupScheduler();
 
         websocket.addEndpoint(SlackRTMEndpoint.class);
-//        //programmatic endpoint
-//        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(SlackRTMEndpoint.class, "/slackrtm").build();
+        //programmatic endpoint
+//        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(SlackRTMEndpoint.class, "").build();
 //        websocket.addEndpoint(serverEndpointConfig);
     }
 }

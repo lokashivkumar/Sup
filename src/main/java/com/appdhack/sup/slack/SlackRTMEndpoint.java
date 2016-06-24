@@ -1,11 +1,14 @@
 package com.appdhack.sup.slack;
 
 import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.net.URI;
 
 @ClientEndpoint
+@ServerEndpoint("/supserver")
 public class SlackRTMEndpoint {
-    private SlackMessageHandler messageHandler;
+    private SlackMessageHandler messageHandler = new SlackMessageHandler();
     private Session userSession;
     private SlackUtil util = new SlackUtil();
 
@@ -13,7 +16,7 @@ public class SlackRTMEndpoint {
         try {
             URI uri = new URI(util.getRTMUrl());
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            Session session = container.connectToServer(this, uri);
+            userSession = container.connectToServer(this, uri);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -22,11 +25,17 @@ public class SlackRTMEndpoint {
     @OnOpen
     public void onOpen(final Session userSession) {
         this.userSession = userSession;
-        userSession.getAsyncRemote().sendText("***this is my reply***");
+        userSession.addMessageHandler(messageHandler);
+        try {
+            userSession.getBasicRemote().sendText("got your message");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClose
     public void onClose(final Session userSession, final CloseReason reason) {
+        System.out.println(reason);
         this.userSession = null;
     }
 
@@ -35,8 +44,6 @@ public class SlackRTMEndpoint {
         if (messageHandler != null) {
             messageHandler.handleMessage(message);
         }
-        System.out.println(message);
-        sendMessage("Hi from the app!");
     }
 
     public void addMessageHandler(final SlackMessageHandler msgHandler) {
@@ -44,8 +51,6 @@ public class SlackRTMEndpoint {
     }
 
     public void sendMessage(final String message) {
-        userSession.getAsyncRemote().sendText(message);
-        userSession.getAsyncRemote().sendText(message);
     }
 }
 
