@@ -1,12 +1,18 @@
 package com.appdhack.sup.resources;
 
+import com.appdhack.sup.slack.SlackRTMEndpoint;
+
+import javax.websocket.ClientEndpoint;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 @Path("/sup")
+@ClientEndpoint
 public class SupResource {
+
+    SlackRTMEndpoint rtmEndpoint = new SlackRTMEndpoint();
 
     @Path("/auth")
     @POST

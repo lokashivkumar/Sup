@@ -1,20 +1,35 @@
 package com.appdhack.sup;
 
+import be.tomcools.dropwizard.websocket.WebsocketBundle;
 import com.appdhack.sup.healthchecks.SupHealthCheck;
 import com.appdhack.sup.resources.SupResource;
 import com.appdhack.sup.scheduler.SupScheduler;
+import com.appdhack.sup.slack.SlackRTMEndpoint;
 import io.dropwizard.Application;
-import io.dropwizard.client.HttpClientBuilder;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.HttpClient;
+
+import javax.websocket.ClientEndpoint;
+import javax.websocket.server.ServerEndpointConfig;
 
 @Slf4j
+@ClientEndpoint
 public class SupApplication extends Application<SupApplicationConfiguration> {
     private SupScheduler supScheduler;
+
     public static void main(String[] args) throws Exception {
         new SupApplication().run(args);
     }
+
+    private WebsocketBundle websocket = new WebsocketBundle();
+
+    @Override
+    public void initialize(Bootstrap<SupApplicationConfiguration> bootstrap) {
+        super.initialize(bootstrap);
+        bootstrap.addBundle(websocket);
+    }
+
 
     @Override
     public void run(SupApplicationConfiguration configuration, Environment environment) throws Exception {
@@ -26,12 +41,9 @@ public class SupApplication extends Application<SupApplicationConfiguration> {
         log.info("Starting a scheduler");
         supScheduler = new SupScheduler();
 
-
-        /* No Rest Client at the moment.
-        final HttpClient httpClient = new HttpClientBuilder(environment)
-                .using(configuration.getHttpClientConfiguration())
-                .build(getName());
-        environment.jersey().register(new ExternalServiceResource(httpClient));
-        */
+        websocket.addEndpoint(SlackRTMEndpoint.class);
+//        //programmatic endpoint
+//        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(SlackRTMEndpoint.class, "/slackrtm").build();
+//        websocket.addEndpoint(serverEndpointConfig);
     }
 }
