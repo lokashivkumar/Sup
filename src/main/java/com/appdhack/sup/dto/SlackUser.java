@@ -10,7 +10,11 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SlackUser {
-
     private String id;
     private String name;
+
+    public SlackUser(String name, String id) {
+        this.name = name;
+        this.id = id;
+    }
 }

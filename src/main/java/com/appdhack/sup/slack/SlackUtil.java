@@ -1,6 +1,7 @@
 package com.appdhack.sup.slack;
 
 import com.appdhack.sup.dto.SlackUser;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -23,9 +24,9 @@ import java.util.List;
 public class SlackUtil {
 
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SlackUtil.class);
-    private final String slackToken = "";
+    private final String slackToken = "xoxp-53450742471-53446019440-54076825441-34a1302919";
     private final String botToken = "xoxb-53472513298-zi8L5Dao0Ztx1FGXfwjbI3s3";
-    List<SlackUser> userList = new ArrayList<>();
+    static List<SlackUser> userList = new ArrayList<>();
 
     public String getRTMUrl() throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
@@ -40,7 +41,6 @@ public class SlackUtil {
         }
         HttpGet httpget = new HttpGet(uri);
         HttpResponse response = null;
-        JsonElement element = null;
         StringBuilder str = null;
         try {
             response = client.execute(httpget);
@@ -59,6 +59,19 @@ public class SlackUtil {
         JsonObject object = slackBotJsonResponse.getAsJsonObject();
         String url = object.get("url").getAsString();
 
+        JsonArray userArray = object.get("users").getAsJsonArray();
+        SlackUser slackUser = null;
+
+        for (int i = 0; i < userArray.size(); i++) {
+            String name = userArray.get(i).getAsJsonObject().get("name").getAsString();
+            String id = userArray.get(i).getAsJsonObject().get("id").getAsString();
+            slackUser = new SlackUser(name, id);
+            userList.add(slackUser);
+        }
         return url;
+    }
+
+    public static List<SlackUser> getUserList() {
+        return userList;
     }
 }

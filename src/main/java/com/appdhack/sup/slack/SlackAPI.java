@@ -1,5 +1,6 @@
 package com.appdhack.sup.slack;
 
+import com.appdhack.sup.dto.SlackUser;
 import com.appdhack.sup.scheduler.DaysOfWeek;
 
 import javax.websocket.Session;
@@ -15,7 +16,7 @@ public interface SlackAPI {
 
     String ask(String userId, String message, long timeoutInMillis);
 
-    List<String> getAllActiveUsers(String channelId);
+    List<SlackUser> getAllActiveUsers(String channelId);
 
     String receive(String channelId, String time, DaysOfWeek day);
 
