@@ -28,15 +28,14 @@ import java.util.Map;
 public class SlackUtil {
 
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SlackUtil.class);
-    private final String slackToken = "";
-    private final String botToken = "xoxb-53472513298-zi8L5Dao0Ztx1FGXfwjbI3s3";
+    private final String botToken = "";
     static List<SlackUser> userList = new ArrayList<>();
 
     public String getRTMUrl() throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
         JsonParser parser = new JsonParser();
         URIBuilder builder = new URIBuilder();
-        builder.setScheme("https").setHost("slack.com").setPath("/api/rtm.start").setParameter("token", slackToken);;
+        builder.setScheme("https").setHost("slack.com").setPath("/api/rtm.start").setParameter("token", botToken);;
         URI uri = null;
         try {
             uri = builder.build();

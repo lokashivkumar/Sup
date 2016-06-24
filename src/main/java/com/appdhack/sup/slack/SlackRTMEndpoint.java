@@ -43,13 +43,6 @@ public class SlackRTMEndpoint {
         SlackAPI api = new SlackAPIImpl();
         api.setUserSession(userSession);
         System.out.println("Open session");
-       // userSession.addMessageHandler(messageHandler);
-//        userSession.addMessageHandler(messageHandler);
-//        try {
-//            userSession.getBasicRemote().sendText("start");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     @OnMessage

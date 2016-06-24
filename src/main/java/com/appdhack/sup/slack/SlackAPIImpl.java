@@ -2,18 +2,16 @@ package com.appdhack.sup.slack;
 
 import com.appdhack.sup.dto.SlackUser;
 import com.appdhack.sup.scheduler.DaysOfWeek;
+import com.appdhack.sup.scheduler.ScheduleDetail;
+import com.appdhack.sup.scheduler.SupScheduler;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.appdhack.sup.scheduler.ScheduleDetail;
-import com.appdhack.sup.scheduler.SupScheduler;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Data
@@ -53,6 +51,7 @@ public class SlackAPIImpl implements SlackAPI {
 
     @Override
     public String ask(String channelId, String userId, String message, long timeoutInMillis) {
+
         return null;
     }
 
