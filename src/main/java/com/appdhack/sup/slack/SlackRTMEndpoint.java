@@ -26,6 +26,7 @@ public class SlackRTMEndpoint {
     private WebSocketClient client;
     Events event = new Events();
     Session userSession;
+    public static String currentUserId = null;
 
     public SlackRTMEndpoint() {
         latch = new CountDownLatch(1);
@@ -49,7 +50,7 @@ public class SlackRTMEndpoint {
     @OnMessage
     public void onMessage(Session userSession, String message) {
         JsonParser parser = new JsonParser();
-        System.out.println("received:" +message);
+        System.out.println("received:" + message);
         JsonObject object = parser.parse(message).getAsJsonObject();
         event.setType(object.get("type").getAsString());
         event.setText(object.get("text").getAsString());
@@ -98,7 +99,7 @@ public class SlackRTMEndpoint {
                 i++;
                 userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
             }
-            else if(event.getText().equalsIgnoreCase("<@U1KDWF38S> schedule")) {
+            else if(event.getText().equalsIgnoreCase("<@U1KDWF38S>: schedule")) {
                 String textString = "please type: 'schedule [time in HH:mm] every [day of week]' to schedule a standup.";
                 valueMap.put("id", String.valueOf(i));
                 valueMap.put("type", "message");
@@ -108,6 +109,9 @@ public class SlackRTMEndpoint {
                 ObjectMapper mapper = new ObjectMapper();
                 i++;
                 userSession.getBasicRemote().sendText(mapper.writeValueAsString(valueMap));
+            }
+            else if (SlackUtil.userIdNameMap.get(currentUserId).getName() == event.getUser()) {
+                SlackAPIImpl.returnValueForAsk = event.getText();
             }
 
             // all other cases.

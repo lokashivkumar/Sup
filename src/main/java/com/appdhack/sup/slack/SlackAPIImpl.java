@@ -4,6 +4,7 @@ import com.appdhack.sup.dto.SlackUser;
 import com.appdhack.sup.scheduler.DaysOfWeek;
 import com.appdhack.sup.scheduler.ScheduleDetail;
 import com.appdhack.sup.scheduler.SupScheduler;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +20,7 @@ public class SlackAPIImpl implements SlackAPI {
     private Session userSession = null;
     private static int messageId = 1;
     private static final SlackAPIImpl INSTANCE = new SlackAPIImpl();
+    public static String returnValueForAsk = null;
 
     public static SlackAPIImpl getInstance() {
         return SlackAPIImpl.INSTANCE;
@@ -50,9 +52,19 @@ public class SlackAPIImpl implements SlackAPI {
     }
 
     @Override
-    public String ask(String channelId, String userId, String message, long timeoutInMillis) {
-
-        return null;
+    public String ask(String channelId, String userId, String text, long timeoutInMillis) {
+        int MINUTES_FOR_USER_TO_ANSWER_ = 2;
+        try {
+            SlackRTMEndpoint.currentUserId = userId;
+            String jsonString = SlackUtil.toJsonMessage(messageId++, channelId, text);
+            userSession.getBasicRemote().sendText(jsonString);
+            // wait for user to answer the bot
+            Thread.sleep(MINUTES_FOR_USER_TO_ANSWER_ * 60000);
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
+        // returns whatever is received (can be null) in 2 minutes time
+        return returnValueForAsk;
     }
 
     @Override

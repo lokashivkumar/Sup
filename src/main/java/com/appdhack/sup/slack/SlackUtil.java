@@ -28,8 +28,8 @@ import java.util.Map;
 public class SlackUtil {
 
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SlackUtil.class);
-    private final String botToken = "xoxb-53472513298-nUZiG91Fa7gVVeKiCDoAtd5G";
-    static List<SlackUser> userList = new ArrayList<>();
+    private final String botToken = "";
+    public static Map<String, SlackUser> userIdNameMap = new HashMap<>();
 
     public String getRTMUrl() throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
@@ -63,20 +63,20 @@ public class SlackUtil {
         String url = object.get("url").getAsString();
 
         JsonArray userArray = object.get("users").getAsJsonArray();
-        SlackUser slackUser = null;
+        SlackUser slackUser;
 
         for (int i = 0; i < userArray.size(); i++) {
             String name = userArray.get(i).getAsJsonObject().get("name").getAsString();
             String id = userArray.get(i).getAsJsonObject().get("id").getAsString();
             boolean isBot = userArray.get(i).getAsJsonObject().get("is_bot").getAsBoolean();
             slackUser = new SlackUser(name, id, isBot);
-            userList.add(slackUser);
+            userIdNameMap.put(id, slackUser);
         }
         return url;
     }
 
     public static List<SlackUser> getUserList() {
-        return userList;
+        return (List<SlackUser>)userIdNameMap.values();
     }
 
     public static String toJsonMessage(int messageId, String channelId, String textString) throws
@@ -91,6 +91,5 @@ public class SlackUtil {
         ObjectMapper mapper = new ObjectMapper();
 
         return mapper.writeValueAsString(valueMap);
-
     }
 }
