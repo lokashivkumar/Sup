@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 
 import javax.websocket.Session;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.appdhack.sup.scheduler.ScheduleDetail;
@@ -18,17 +20,27 @@ import java.util.Collections;
 @Data
 @Getter
 public class SlackAPIImpl implements SlackAPI {
-    Session userSession = null;
-    String channelId = "";
+    private Session userSession = null;
+    private static int messageId = 1;
 
     @Override
-    public void say(String channelId, String message) {
-
+    public void say(String channelId, String text) {
+        try {
+            userSession.getBasicRemote()
+                    .sendText(SlackUtil.toJsonMessage(messageId++, channelId, text));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void say(String channelId, String userId, String message) {
-
+    public void say(String channelId, String userId, String text) {
+        try {
+            userSession.getBasicRemote()
+                    .sendText(SlackUtil.toJsonMessage(messageId++, channelId, text));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setUserSession(Session userSession) {
@@ -41,8 +53,12 @@ public class SlackAPIImpl implements SlackAPI {
     }
 
     @Override
-    public List<SlackUser> getAllActiveUsers(String channelId) {
-        return SlackUtil.getUserList();
+    public List<String> getAllActiveUsers(String channelId) {
+        List<String> userList = new ArrayList<>();
+        for (SlackUser user : SlackUtil.getUserList()) {
+            userList.add(user.getName());
+        }
+        return userList;
     }
 
     @Override

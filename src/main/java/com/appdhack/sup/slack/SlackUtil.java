@@ -2,6 +2,8 @@ package com.appdhack.sup.slack;
 
 import com.appdhack.sup.dto.SlackUser;
 import com.google.gson.JsonArray;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -19,7 +21,9 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SlackUtil {
 
@@ -73,5 +77,20 @@ public class SlackUtil {
 
     public static List<SlackUser> getUserList() {
         return userList;
+    }
+
+    public static String toJsonMessage(int messageId, String channelId, String textString) throws
+            JsonProcessingException {
+
+        Map<String, String> valueMap = new HashMap<>();
+        valueMap.put("id", String.valueOf(messageId));
+        valueMap.put("type", "message");
+        valueMap.put("subtype", "bot_message");
+        valueMap.put("channel", channelId);
+        valueMap.put("text", textString);
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.writeValueAsString(valueMap);
+
     }
 }

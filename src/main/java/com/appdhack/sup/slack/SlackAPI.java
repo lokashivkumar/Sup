@@ -16,7 +16,7 @@ public interface SlackAPI {
 
     String ask(String channelId, String userId, String message, long timeoutInMillis);
 
-    List<SlackUser> getAllActiveUsers(String channelId);
+    List<String> getAllActiveUsers(String channelId);
 
     void setUserSession(Session userSession);
 
