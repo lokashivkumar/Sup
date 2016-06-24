@@ -54,6 +54,7 @@ public class SupScheduler {
                 .build();
 
         job.getJobDataMap().put(SupConstants.REMINDER_ENABLED_PARAM, scheduleDetail.enableReminder);
+        job.getJobDataMap().put(SupConstants.USER_SESSION_PARAM, scheduleDetail.getUserSession());
 
         Set<Integer> daySet = Sets.newHashSet(scheduleDetail.getDaysOfWeek());
 

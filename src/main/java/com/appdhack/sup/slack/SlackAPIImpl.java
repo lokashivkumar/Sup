@@ -3,7 +3,6 @@ package com.appdhack.sup.slack;
 import com.appdhack.sup.dto.SlackUser;
 import com.appdhack.sup.scheduler.DaysOfWeek;
 import lombok.Data;
-import lombok.Getter;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -18,10 +17,14 @@ import java.util.Collections;
 
 @Slf4j
 @Data
-@Getter
 public class SlackAPIImpl implements SlackAPI {
     private Session userSession = null;
     private static int messageId = 1;
+    private static final SlackAPIImpl INSTANCE = new SlackAPIImpl();
+
+    public static SlackAPIImpl getInstance() {
+        return SlackAPIImpl.INSTANCE;
+    }
 
     @Override
     public void say(String channelId, String text) {
@@ -77,11 +80,13 @@ public class SlackAPIImpl implements SlackAPI {
         List<DaysOfWeek> dowList = Collections.singletonList(day);
         List<Integer> valueList =
                 DaysOfWeek.getValues(dowList.toArray(new DaysOfWeek[dowList.size()]));
+        System.out.print("User session here in schedule is " + userSession);
 
         ScheduleDetail scheduleDetail = new ScheduleDetail()
                 .setHour(hour)
                 .setMinute(minute)
-                .setDaysOfWeek(valueList);
+                .setDaysOfWeek(valueList)
+                .setUserSession(userSession);
 
         SupScheduler.getInstance().scheduleSup(channelId, scheduleDetail);
     }

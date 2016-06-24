@@ -3,6 +3,7 @@ package com.appdhack.sup.scheduler;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.websocket.Session;
 import java.util.List;
 
 /**
@@ -21,4 +22,6 @@ public class ScheduleDetail {
     int seconds = 0;
 
     boolean enableReminder = false;
+
+    Session userSession;
 }

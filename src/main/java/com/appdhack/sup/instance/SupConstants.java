@@ -6,6 +6,8 @@ package com.appdhack.sup.instance;
 public class SupConstants {
     public static final String REMINDER_ENABLED_PARAM = "remind_enabled";
 
+    public static final String USER_SESSION_PARAM = "user_session";
+
     public static final int AVAILABILITY_CHECK_TIMEOUT_SEC = 10;
 
     public static final int QUESTION_TIMEOUT_SEC = 120;

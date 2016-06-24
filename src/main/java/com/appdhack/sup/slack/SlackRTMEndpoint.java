@@ -40,6 +40,8 @@ public class SlackRTMEndpoint {
 
     @OnOpen
     public void onOpen(Session userSession) {
+        SlackAPI api = new SlackAPIImpl();
+        api.setUserSession(userSession);
         System.out.println("Open session");
        // userSession.addMessageHandler(messageHandler);
 //        userSession.addMessageHandler(messageHandler);
@@ -95,6 +97,7 @@ public class SlackRTMEndpoint {
             System.out.println(time + " " + day);
             SlackAPI api = new SlackAPIImpl();
             api.setUserSession(userSession);
+            System.out.println("User session in slack RTM end point is " + userSession);
             try {
                 api.schedule(event.getChannel(), time, DaysOfWeek.valueOf(day));
             } catch (Exception e) {

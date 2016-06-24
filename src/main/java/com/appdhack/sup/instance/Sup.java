@@ -2,12 +2,14 @@ package com.appdhack.sup.instance;
 
 import com.appdhack.sup.scheduler.SupScheduleConstants;
 import com.appdhack.sup.slack.SlackAPI;
+import com.appdhack.sup.slack.SlackAPIImpl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import javax.websocket.Session;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,10 +25,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Data
 public class Sup implements Job {
-    private final SlackAPI slackAPI;
+    private final SlackAPIImpl slackAPI = SlackAPIImpl.getInstance();
     private SupQuestionnaires.QuestionnaireType questionnaireType;
 
     public enum FollowUpAction {GET_BACK_LATER, SKIP, DONE}
+
+    public Sup() {
+    }
 
     private boolean shouldSkip(String response) {
         return response.toLowerCase().equals(SupKeyword.SKIP);
@@ -76,6 +81,12 @@ public class Sup implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
+
+        Session userSession = (Session)
+                context.getJobDetail().getJobDataMap().get(SupConstants.USER_SESSION_PARAM);
+        slackAPI.setUserSession(userSession);
+        log.info("UserSession is {}", userSession);
+        System.out.println("UserSession is " + userSession);
         questionnaireType = SupQuestionnaires.QuestionnaireType.A;
 
         boolean reminderEnabled = (boolean) context.getJobDetail()
