@@ -10,5 +10,5 @@ public class SupConstants {
 
     public static final int AVAILABILITY_CHECK_TIMEOUT_SEC = 10;
 
-    public static final int QUESTION_TIMEOUT_SEC = 120;
+    public static final int QUESTION_TIMEOUT_SEC = 15;
 }

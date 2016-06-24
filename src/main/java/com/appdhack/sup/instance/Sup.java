@@ -52,7 +52,7 @@ public class Sup implements Job {
             return FollowUpAction.SKIP;
         }
 
-        slackAPI.say(userId, SupMessages.INSTRUCTION);
+        slackAPI.say(channelId, userId, SupMessages.INSTRUCTION);
 
         // Moving on to questions.
         List<String> questionnaire = SupQuestionnaires.getQuestionnaire(questionnaireType);
