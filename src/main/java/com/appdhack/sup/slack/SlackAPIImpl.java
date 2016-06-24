@@ -71,7 +71,9 @@ public class SlackAPIImpl implements SlackAPI {
         List<String> userList = new ArrayList<>();
         for (SlackUser user : SlackUtil.getUserList()) {
             if (!user.isBot()) {
-                userList.add(user.getId());
+                if (!user.getName().contains("slack")) {
+                    userList.add(user.getId());
+                }
             }
         }
         return userList;
