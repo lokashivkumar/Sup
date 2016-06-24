@@ -16,4 +16,5 @@ public class Events {
     private String sub_type;
     private String text;
     private String url;
+    private String user;
 }
